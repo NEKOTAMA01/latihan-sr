@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)https://ebadrus.my.id/materi/SR_STUDENT_PLAYGROUND.html -->
+<html lang="id"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SR STUDENT PLAYGROUND - Simpan Progress 🕹️</title>
+    <link href="./SR STUDENT PLAYGROUND - Simpan Progress 🕹️_files/css2" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #1e2124;
+            --sr-green: #00d2d3;
+            --sr-purple: #a29bfe;
+            --accent: #ff7675;
+            --box: #2f3542;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        nav {
+            padding: 15px 30px;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--sr-green);
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--sr-green);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .save-indicator {
+            font-size: 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            color: #aaa;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            min-height: 0;
+        }
+
+        .editor-side {
+            width: 45%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border-right: 5px solid #111;
+            background: var(--box);
+        }
+
+        .editor-label {
+            padding: 10px 20px;
+            background: #111;
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: var(--sr-green);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        textarea {
+            flex: 1;
+            background: transparent;
+            color: #fff;
+            border: none;
+            padding: 25px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            resize: none;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .preview-side {
+            flex: 1;
+            background: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-label {
+            padding: 10px 20px;
+            background: #eee;
+            color: #333;
+            font-weight: 800;
+            border-bottom: 1px solid #ccc;
+        }
+
+        iframe {
+            flex: 1;
+            border: none;
+            background: white;
+        }
+
+        /* Sidebar Missions */
+        .mission-sidebar {
+            width: 280px;
+            background: #111;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+        }
+
+        .mission-sidebar h3 {
+            font-size: 1rem;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .mission-goal-box {
+            background: var(--box);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid var(--sr-purple);
+            margin-bottom: 10px;
+        }
+
+        .mission-goal-box h4 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: var(--sr-purple);
+        }
+
+        .mission-goal-box p {
+            font-size: 0.9rem;
+            color: #ccc;
+            line-height: 1.4;
+        }
+
+        button.control-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button.control-btn:hover {
+            filter: brightness(1.2);
+        }
+
+        .level-btn {
+            background: #222;
+            color: white;
+            border: none;
+            padding: 10px;
+            text-align: left;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .level-btn:hover {
+            background: var(--sr-green);
+            color: black;
+        }
+
+        .level-btn.active {
+            border: 2px solid var(--sr-green);
+            background: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">SR STUDENT PLAYGROUND <span class="save-indicator" id="saveStatus">Progress Tersimpan ✅</span>
+        </div>
+        <div>
+            <button class="control-btn" onclick="resetPlayground()" style="background:#555; margin-right: 10px;">RESET
+                SEMUA</button>
+            <button class="control-btn" onclick="downloadCode()">DOWNLOAD KODE</button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- EDITORS -->
+        <div class="editor-side">
+            <div class="editor-label">HTML KARYA KAMU 📄</div>
+            <textarea id="htmlCode" placeholder="Mulai ketik HTML di sini..." oninput="handleInput()"></textarea>
+
+            <div class="editor-label" style="border-top: 5px solid #111; color: var(--sr-purple);">CSS GAYA KAMU 🎨
+            </div>
+            <textarea id="cssCode" placeholder="Mulai ketik CSS di sini..." oninput="handleInput()"></textarea>
+        </div>
+
+        <!-- PREVIEW -->
+        <div class="preview-side">
+            <div class="preview-label">LIVE PREVIEW 🖥️</div>
+            <iframe id="preview" src="./SR STUDENT PLAYGROUND - Simpan Progress 🕹️_files/saved_resource.html"></iframe>
+        </div>
+
+        <!-- MISSIONS PROMPT -->
+        <div class="mission-sidebar">
+            <h3>MISI BELAJAR 🎯</h3>
+            <div id="missionDisplay" class="mission-goal-box">
+                <h4 id="missionTitle">Misi Utama</h4>
+                <p id="missionDesc">Klik salah satu Level di bawah untuk melihat tugas yang harus kamu kerjakan!</p>
+            </div>
+
+            <button class="level-btn" onclick="setMission(0, &#39;Buat Judul&#39;, &#39;Gunakan h1 untuk membuat judul bertuliskan nama kamu.&#39;)">LEVEL 0:
+                Judul</button>
+            <button class="level-btn" onclick="setMission(1, &#39;Buat Cerita&#39;, &#39;Gunakan p untuk menulis satu kalimat tentang hobi kamu.&#39;)">LEVEL
+                1: Paragraf</button>
+            <button class="level-btn" onclick="setMission(2, &#39;Link Keren&#39;, &#39;Buatlah tag a yang menuju ke website favoritmu.&#39;)">LEVEL 2:
+                Link</button>
+            <button class="level-btn" onclick="setMission(3, &#39;Daftar Mainan&#39;, &#39;Gunakan ul dan li untuk membuat daftar 3 mainan favorit.&#39;)">LEVEL
+                3: List</button>
+            <button class="level-btn" onclick="setMission(4, &#39;Tebal &amp; Miring&#39;, &#39;Gunakan b dan i di dalam sebuah paragraf agar teksnya keren.&#39;)">LEVEL
+                4: Nesting</button>
+
+            <h3 style="margin-top:20px;">MISI GAYA (CSS) 🎨</h3>
+            <button class="level-btn" onclick="setMission(&#39;c0&#39;, &#39;Warna-Warni&#39;, &#39;Ubah warna text h1 menjadi warna kesukaanmu (misal: red, blue, green).&#39;)">Gaya:
+                Warna</button>
+            <button class="level-btn" onclick="setMission(&#39;c1&#39;, &#39;Cat Latar&#39;, &#39;Gunakan background-color untuk mewarnai seluruh halaman atau satu kotak.&#39;)">Gaya:
+                Latar</button>
+            <button class="level-btn" onclick="setMission(&#39;c2&#39;, &#39;Bingkai Foto&#39;, &#39;Gunakan border dan border-radius untuk membuat sebuah kotak yang ujungnya bulat.&#39;)">Gaya:
+                Bingkai</button>
+        </div>
+    </main>
+
+    <script>
+        const htmlTarget = document.getElementById('htmlCode');
+        const cssTarget = document.getElementById('cssCode');
+        const preview = document.getElementById('preview');
+        const status = document.getElementById('saveStatus');
+
+        // Initial Load from LocalStorage
+        window.onload = () => {
+            const savedHTML = localStorage.getItem('sr_html');
+            const savedCSS = localStorage.getItem('sr_css');
+
+            if (savedHTML) htmlTarget.value = savedHTML;
+            if (savedCSS) cssTarget.value = savedCSS;
+
+            updatePreview();
+        };
+
+        function handleInput() {
+            // Save to LocalStorage
+            localStorage.setItem('sr_html', htmlTarget.value);
+            localStorage.setItem('sr_css', cssTarget.value);
+
+            // Visual feedback for saving
+            status.innerText = "Sedang Menyimpan... 💾";
+            status.style.color = "#ff9f43";
+
+            updatePreview();
+
+            // Set back to saved
+            setTimeout(() => {
+                status.innerText = "Progress Tersimpan ✅";
+                status.style.color = "#aaa";
+            }, 1000);
+        }
+
+        function updatePreview() {
+            const html = htmlTarget.value;
+            const css = `<style>
+                body { font-family: 'Outfit', sans-serif; padding: 30px; }
+                ${cssTarget.value}
+            </style>`;
+
+            const source = `<!DOCTYPE html><html><head>${css}</head><body>${html}</body></html>`;
+            const doc = preview.contentDocument || preview.contentWindow.document;
+            doc.open();
+            doc.write(source);
+            doc.close();
+        }
+
+        function setMission(id, title, desc) {
+            document.getElementById('missionTitle').innerText = title;
+            document.getElementById('missionDesc').innerText = desc;
+
+            // Highlight active button
+            document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function resetPlayground() {
+            if (confirm('Ini akan menghapus semua kodemu. Kamu yakin?')) {
+                localStorage.removeItem('sr_html');
+                localStorage.removeItem('sr_css');
+                htmlTarget.value = '';
+                cssTarget.value = '';
+                updatePreview();
+            }
+        }
+
+        function downloadCode() {
+            const content = `<!-- HTML -->\n${htmlTarget.value}\n\n/* CSS */\n${cssTarget.value}`;
+            const blob = new Blob([content], { type: 'text/html' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'karya_saya.html';
+            a.click();
+        }
+    </script>
+
+
+</body></html>
